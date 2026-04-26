@@ -1,0 +1,22 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "-u", "tcp/tcp_server.py"]
+    container_name: tcp_server
+    ports:
+      - "9999:9999"
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "-u", "tcp/tcp_client.py"]
+    container_name: tcp_client
+    depends_on:
+      - server
+    environment:
+      TCP_SERVER_IP: server
+      TCP_SERVER_PORT: "9999"
+      TCP_MESSAGE: Hello from docker compose

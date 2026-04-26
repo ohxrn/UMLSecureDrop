@@ -32,5 +32,11 @@
         "password": "dummyVal",
         "friends": [],
         "friendRequests": []
+    },
+    "secondTester@gmail.com": {
+        "email": "secondTester@gmail.com",
+        "password": "67",
+        "friends": [],
+        "friendRequests": []
     }
 }

@@ -95,13 +95,13 @@ def main():
                     results = addReq(MYCREDENTIALS["email"], username)
                     print("request sent to " + username)
         ##---------
-        print("View friend requests?")
-        sure = input()
-        if (sure):
-            results = checkReq(MYCREDENTIALS["email"])
-        else:
-            print("womp womp. ending prog now.")
-    
+            print("View friend requests?")
+            sure = input()
+            if (sure):
+                results = checkReq(MYCREDENTIALS["email"])
+            else:
+                print("womp womp. ending prog now.")
+        
                         
 
 
