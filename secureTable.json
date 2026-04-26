@@ -1,35 +1,35 @@
 {
-    "jacky": {
-        "email": "jacky",
-        "password": "3333",
+    "emailDummyVal2": {
+        "email": "dummyVal",
+        "password": "dummyVal",
         "friends": [],
         "friendRequests": [
-            "jackohrn1@gmail.com"
+            "dummyVal"
         ]
     },
-    "jacko": {
-        "email": "jacko",
-        "password": "1",
+    "emailDummyVal1": {
+        "email": "dummyVal",
+        "password": "dummyVal",
         "friends": [],
         "friendRequests": []
     },
-    "jackohrn1@gmail.com": {
-        "email": "jackohrn1@gmail.com",
-        "password": "yuy",
+    "emailDummyVal@gmail.com": {
+        "email": "ddummyVal",
+        "password": "dummyVal",
         "friends": [],
         "friendRequests": [
-            "tester"
+            "dummyVal"
         ]
     },
-    "skuyzer": {
-        "email": "skuyzer",
-        "password": "5",
+    "emailDummyVal": {
+        "email": "dummyVal",
+        "password": "dummyVal",
         "friends": [],
         "friendRequests": []
     },
     "tester": {
-        "email": "tester",
-        "password": "22",
+        "email": "dummyVal",
+        "password": "dummyVal",
         "friends": [],
         "friendRequests": []
     }
