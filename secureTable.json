@@ -1,0 +1,36 @@
+{
+    "jacky": {
+        "email": "jacky",
+        "password": "3333",
+        "friends": [],
+        "friendRequests": [
+            "jackohrn1@gmail.com"
+        ]
+    },
+    "jacko": {
+        "email": "jacko",
+        "password": "1",
+        "friends": [],
+        "friendRequests": []
+    },
+    "jackohrn1@gmail.com": {
+        "email": "jackohrn1@gmail.com",
+        "password": "yuy",
+        "friends": [],
+        "friendRequests": [
+            "tester"
+        ]
+    },
+    "skuyzer": {
+        "email": "skuyzer",
+        "password": "5",
+        "friends": [],
+        "friendRequests": []
+    },
+    "tester": {
+        "email": "tester",
+        "password": "22",
+        "friends": [],
+        "friendRequests": []
+    }
+}
