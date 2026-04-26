@@ -1,10 +1,13 @@
 import json
 import pathlib
 import os
+from helperFuncs import doesFileExist
+from authenticationMod import authenticate
+
+SENSITIVE = "secureTable.json"
 
 def main():
     try:
-        sensitive = "secureTable.json"
         print("Do you have an account? (1) for yes, (2) for no")
         yesNo= input()
         if (yesNo == "1"):
@@ -61,31 +64,38 @@ def main():
                 
                 
             print("Great! We have now registered you for our secure drop system.")
-            while (1==1):
-                print("g")
+            
+            print("View contacts? : (1)=Yes (0)=No")
+            yayNay = input()
+            if (yayNay):
+                print("placeholder")
+            
+            print("Want to add contacts to transfer data? (1)=Yes (2)=no")
+            yayNay=input()
+            if (yayNay):
+                print("Okay. Begin by entering the the username you would like to add:")
+                username = input()
+
+
 
     except KeyboardInterrupt:
         print("Program aborted.")
 
     finally:
-        if (os.path.isfile(sensitive)):
-            os.remove(sensitive)
+        if (os.path.isfile(SENSITIVE)):
+            os.remove(SENSITIVE)
             print("CREDENTIALS REMOVED.")
         else:
             print("file doesnt exist.")
 
 
     
-def authenticate(accounts, acctU, acctP):
-    if (os.path.isfile(accounts)):
-        with open(accounts, "r") as f:
-            data = json.load(f)
-            if acctU in data:
-                if data[acctU]["password"]==acctP:
-                    return 1
-                else:
-                    return 0
-    return -1
+def userExists(username):
+    if (doesFileExist(SENSITIVE)):
+        with open (SENSITIVE):
+            print("ski")
+
+
 
 main()
 
