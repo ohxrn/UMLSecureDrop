@@ -3,8 +3,13 @@ import pathlib
 import os
 from helperFuncs import doesFileExist
 from authenticationMod import authenticate
+from checkUsers import userExists
+from addRequest import addReq 
+from addRequest import checkReq
+# from whoAmI import myCreds
 
 SENSITIVE = "secureTable.json"
+MYCREDENTIALS={}
 
 def main():
     try:
@@ -21,15 +26,18 @@ def main():
             elif results == 0:
                 print("incorrect password")
             else:
+                MYCREDENTIALS = {
+                    "email":email,
+                    "password":password
+                }
                 print("Access granted!")
+                
 
         
 
         else:
             print("Let's make you an account! First, enter an email to use for your account: ")
             newEmail=input()
-            print("Next, enter a unique username to use for your account.")
-            username = input()
             print("Now enter a good password for you to use: ")
             newPassword = input()
             print("reenter password to verify match: ")
@@ -43,14 +51,20 @@ def main():
                 newP1 = input()
             newAcct = {
                     "email": newEmail,
-                    "password": newPassword     
+                    "password": newPassword,
+                    "friends":[],
+                    "friendRequests":[]     
+            }
+            MYCREDENTIALS = {
+                "email":newEmail,
+                "password":newPassword
             }
             ####
             if os.path.isfile("secureTable.json"):
                 with open("secureTable.json", "r") as f:
                     table = json.load(f)
-                if newEmail not in table and username not in table:
-                    table[username] = newAcct
+                if newEmail not in table:
+                    table[newEmail] = newAcct
                         
                 else:
                     print("USER EXISTS ALREADY")
@@ -61,39 +75,49 @@ def main():
                 table[newEmail] = newAcct
                 with open("secureTable.json", "w") as theJSON:
                     json.dump(table, theJSON, indent=4)
-                
-                
+        
             print("Great! We have now registered you for our secure drop system.")
             
-            print("View contacts? : (1)=Yes (0)=No")
-            yayNay = input()
-            if (yayNay):
-                print("placeholder")
+        print("View contacts? : (1)=Yes (0)=No")
+        yayNay = input()
+        if (yayNay):
+            print("placeholder")
+        print("Want to add contacts to transfer data? (1)=Yes (2)=no")
+        yayNay=input()
+        if (yayNay):
+            print("Okay. Enter the the email you would like to add:")
+            username = input()
+            res = userExists(username)
+            if res == 1:
+                print(username+"exists - would you like to connect with this user? (1)=yes, (0)=no")
+                isYes = input()
+                if (isYes):
+                    results = addReq(MYCREDENTIALS["email"], username)
+                    print("request sent to " + username)
+        ##---------
+            print("View friend requests?")
+            sure = input()
+            if (sure):
+                results = checkReq(MYCREDENTIALS["email"])
+            else:
+                print("womp womp. ending prog now.")
+        
+                        
+
+
             
-            print("Want to add contacts to transfer data? (1)=Yes (2)=no")
-            yayNay=input()
-            if (yayNay):
-                print("Okay. Begin by entering the the username you would like to add:")
-                username = input()
-
-
-
     except KeyboardInterrupt:
         print("Program aborted.")
 
     finally:
         if (os.path.isfile(SENSITIVE)):
-            os.remove(SENSITIVE)
+            # os.remove(SENSITIVE)
             print("CREDENTIALS REMOVED.")
         else:
             print("file doesnt exist.")
 
 
-    
-def userExists(username):
-    if (doesFileExist(SENSITIVE)):
-        with open (SENSITIVE):
-            print("ski")
+
 
 
 

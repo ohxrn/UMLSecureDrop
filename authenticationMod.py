@@ -1,9 +1,10 @@
 import os
 import pathlib
 import json
+from helperFuncs import doesFileExist
 
 def authenticate(accounts, acctU, acctP):
-    if (os.path.isfile(accounts)):
+    if doesFileExist(accounts):
         with open(accounts, "r") as f:
             data = json.load(f)
             if acctU in data:

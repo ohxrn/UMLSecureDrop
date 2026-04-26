@@ -1,0 +1,42 @@
+{
+    "emailDummyVal2": {
+        "email": "dummyVal",
+        "password": "dummyVal",
+        "friends": [],
+        "friendRequests": [
+            "dummyVal"
+        ]
+    },
+    "emailDummyVal1": {
+        "email": "dummyVal",
+        "password": "dummyVal",
+        "friends": [],
+        "friendRequests": []
+    },
+    "emailDummyVal@gmail.com": {
+        "email": "ddummyVal",
+        "password": "dummyVal",
+        "friends": [],
+        "friendRequests": [
+            "dummyVal"
+        ]
+    },
+    "emailDummyVal": {
+        "email": "dummyVal",
+        "password": "dummyVal",
+        "friends": [],
+        "friendRequests": []
+    },
+    "tester": {
+        "email": "dummyVal",
+        "password": "dummyVal",
+        "friends": [],
+        "friendRequests": []
+    },
+    "secondTester@gmail.com": {
+        "email": "secondTester@gmail.com",
+        "password": "67",
+        "friends": [],
+        "friendRequests": []
+    }
+}
