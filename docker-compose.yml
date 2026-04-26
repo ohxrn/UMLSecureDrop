@@ -1,15 +1,11 @@
 services:
-  p1:
+  central_service:
     build: .  
-    command: ["python", "-u", "source.py"]
-    stdin_open: true
-    container_name: TCP_PERSON_ONE
-    volumes:
-      - ./p1_data:/app/data
+    command: ["python", "-u", "servers/centralServer.py"]
 
-  p2:
+  user_node:
     build: .
-    command: ["python", "-u", "source.py"]
+    command: ["python", "-u", "servers/theClientSide.py"]
     stdin_open: true
     container_name: TCP_PERSON_TWO
     volumes:

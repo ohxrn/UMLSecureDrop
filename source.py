@@ -20,7 +20,7 @@ def main():
             email = input()
             print("please enter password: ")
             password = input()
-            results = authenticate("secureTable.json", email, password)
+            results = authenticate(SENSITIVE, email, password)
             if results==-1:
                 print("entries do not exist. Err.")
             elif results == 0:
@@ -60,20 +60,20 @@ def main():
                 "password":newPassword
             }
             ####
-            if os.path.isfile("secureTable.json"):
-                with open("secureTable.json", "r") as f:
+            os.makedirs("/app/data", exist_ok = True)
+            if os.path.isfile(SENSITIVE):
+                with open(SENSITIVE, "r") as f:
                     table = json.load(f)
                 if newEmail not in table:
                     table[newEmail] = newAcct
-                        
                 else:
                     print("USER EXISTS ALREADY")
-                with open("secureTable.json", "w") as theJSON:
+                with open(SENSITIVE, "w") as theJSON:
                     json.dump(table, theJSON, indent=4)
             else:
                 table = {}
                 table[newEmail] = newAcct
-                with open("secureTable.json", "w") as theJSON:
+                with open(SENSITIVE, "w") as theJSON:
                     json.dump(table, theJSON, indent=4)
         
             print("Great! We have now registered you for our secure drop system.")
