@@ -1,7 +1,7 @@
 import json
 from helperFuncs import doesFileExist
 
-SENSITIVE = "secureTable.json"
+SENSITIVE = "/app/data/secureTable.json"
 
 def addReq(credObj, email):
     if (doesFileExist(SENSITIVE)):

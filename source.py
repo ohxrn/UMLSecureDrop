@@ -8,7 +8,7 @@ from addRequest import addReq
 from addRequest import checkReq
 # from whoAmI import myCreds
 
-SENSITIVE = "secureTable.json"
+SENSITIVE = "/app/data/secureTable.json"
 MYCREDENTIALS={}
 
 def main():
@@ -95,13 +95,13 @@ def main():
                     results = addReq(MYCREDENTIALS["email"], username)
                     print("request sent to " + username)
         ##---------
-            print("View friend requests?")
-            sure = input()
-            if (sure):
-                results = checkReq(MYCREDENTIALS["email"])
-            else:
-                print("womp womp. ending prog now.")
-        
+        print("View friend requests?")
+        sure = input()
+        if (sure):
+            results = checkReq(MYCREDENTIALS["email"])
+        else:
+            print("womp womp. ending prog now.")
+    
                         
 
 

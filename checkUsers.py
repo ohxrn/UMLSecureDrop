@@ -1,7 +1,7 @@
 from helperFuncs import doesFileExist 
 import json
 
-SENSITIVE = "secureTable.json"
+SENSITIVE = "/app/data/secureTable.json"
 def userExists(username):
     if (doesFileExist(SENSITIVE)):
         with open (SENSITIVE, "r") as f:
