@@ -16,7 +16,7 @@ def initiateBackend():
     server.bind(("0.0.0.0", 9999))
     server.listen(5)
 
-    print("-----------TLS listener now active------------")
+    # print("-----------TLS listener now active------------")
 
     while True:
         try:

@@ -5,47 +5,66 @@ import os
 from servers.serverSide import initiateBackend
 from servers.theClientSide import sendMessage
 from helperFuncs import doesFileExist
-ME = "/app/data/whoami.json"
-
-
-def getEmail():
-    if (doesFileExist(ME)):
-        with open (ME, "r") as f:
-            data = json.load(f)
-            email=data["email"]
-            return email
-    else:
-        print("file doesnt exist")
-    return -1
-
-        
-    
+from helperFuncs import printContacts
+from authenticationMod import authenticate
+from createUser import createUser
+ME = "whoami.json"
+CRED="jackohrn1@gmail.com"
+SENSITIVE = "/app/data/secureTable.json"
 
 def main():
-    os.makedirs("/app/data", exist_ok=True)
-
-    if not doesFileExist(ME):
-        print("file does not exist")
-        return
-
+    #docker setup initially
+    os.makedirs("/app/data", exist_ok = True)
+     #main while
+    #  while (doesFileExist(ME)):
+        #initiate multithread
     threading.Thread(target=initiateBackend, daemon=True).start()
-
-    email = getEmail()
-
-    while True:
-        command = input("secure_drop> ")
-
-        if command == "send":
-            host = input("Enter host to send to: ")
-            sendMessage(host, email)
-
-        elif command == "exit":
-            break
-
+    print("new user? (1)=y (0)=n")
+    res = input()
+    if (res==0):
+        print("enter email:")
+        nE = input()
+        print("enter password:")
+        nP = input()
+        results = authenticate(SENSITIVE, nE, nP)
+        if (results):
+            print("yay ur real")
         else:
-            print("Commands: send, exit")
+            print("not correct combo.")
 
-    
- 
 
+    myCreds = createUser()
+    if (myCreds!=-1):
+        print("Loggin in! as:", myCreds)
+
+
+
+    command=1
+    while (command!=-1):
+        print("secure_drop>")
+        print("-Add \n-List\n-Send\n-Exit")
+        command = input()
+        match (command):
+            case "Add":
+                print("enter email you'd like to add:")
+                emailName = input()
+                break
+            case "List":
+                printContacts("jackohrn1@gmail.com")
+            case "Send":
+                break
+            case "Exit":
+                break
+        #grab ur email credentials
+    results = sendMessage("alice", "here's my message")
+    if (results):
+        print("yay")
+        
+
+
+
+
+
+        ########
 main()
+      

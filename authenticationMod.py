@@ -2,13 +2,14 @@ import os
 import pathlib
 import json
 from helperFuncs import doesFileExist
+from helperFuncs import hashPassword
 
 def authenticate(accounts, acctU, acctP):
     if doesFileExist(accounts):
         with open(accounts, "r") as f:
             data = json.load(f)
             if acctU in data:
-                if data[acctU]["password"]==acctP:
+                if data[acctU]["password"]==hashPassword(acctP):
                     return 1
                 else:
                     return 0
