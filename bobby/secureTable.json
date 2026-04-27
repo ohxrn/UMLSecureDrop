@@ -15,6 +15,8 @@
         "friends": [
             "alice@gmail.com"
         ],
-        "friendRequests": []
+        "friendRequests": [
+            "alice@gmail.com"
+        ]
     }
 }

@@ -44,6 +44,25 @@ def initiateBackend(my_email):
                 tls_socket.send(("Merge_COMPLETED|" + sender_email).encode())
             else:
                 tls_socket.send("MERGE_FAILED".encode())
+        elif message.startswith("FILE|"):
+            parts = message.split("|")
+            sender_email = parts[1]
+            filename = parts[2]
+            print(f"{sender_email} wants to send a file: {filename}")
+            ans = input("Accept file? (y/n): ")
+            if ans != "y":
+                tls_socket.send("DENY".encode())
+            else:
+                tls_socket.send("ACCEPT".encode())
+                savePath = "/app/data/"+filename
+
+                with open(savePath, "wb") as f:
+                    while True:
+                        bits = tls_socket.recv(4096)
+                        if not bits:
+                            break
+                        f.write(bits)
+                    print("File received:", savePath)
 
         else:
             print("Message:", message)

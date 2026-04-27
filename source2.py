@@ -13,6 +13,7 @@ from helperFuncs import retrieveHosts
 from addRequest import addReq
 from addRequest import checkReq
 from addRequest import newFriend
+from servers.theClientSide import sendFile
 ME = "whoami.json"
 # CRED="jackohrn1@gmail.com"
 SENSITIVE = "/app/data/secureTable.json"
@@ -80,7 +81,18 @@ def main():
             case "List":
                 printContacts(myCreds)
             case "Send":
-                break
+                online = findOnline(myCreds)
+                for email in online:
+                    print(email)
+
+                target = input("send file to email: ")
+                filepath = input("filePath: ")
+                if target in online:
+                    host = online[target]
+                    sendFile(host, myCreds, filepath)
+                else:
+                    print("not online sadly")
+
             case "Req":
                 res = checkReq(myCreds)
                 print (res)
@@ -104,9 +116,9 @@ def main():
             case "Exit":
                 break
         #grab ur email credentials
-    results = sendMessage("alice", "here's my message")
-    if (results):
-        print("yay")
+    # results = sendMessage("alice", "here's my message")
+    # if (results):
+    #     print("yay")
         
         ########
 main()
