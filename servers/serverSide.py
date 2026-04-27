@@ -1,9 +1,7 @@
 import socket
 import ssl
-from pathlib import Path
+from addRequest import addReq
 
-
-TLS_DIR = Path(__file__).resolve().parent.parent / "docker_content" / "tls"
 
 def initiateBackend(my_email):
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
@@ -22,13 +20,22 @@ def initiateBackend(my_email):
 
         data = tls_socket.recv(1024)
         message = data.decode()
-        print("Message:", message)
 
         if message.startswith("WHO|"):
             tls_socket.send(("HERE|" + my_email).encode())
+
+        elif message.startswith("FR|"):
+            sender_email = message.split("|")[1]
+
+            result = addReq(sender_email, my_email)
+
+            if result == 1:
+                tls_socket.send(("REQUEST_RECEIVED|" + sender_email).encode())
+            else:
+                tls_socket.send("REQUEST_FAILED".encode())
+
         else:
+            print("Message:", message)
             tls_socket.send("TLS RECEIVED".encode())
 
         tls_socket.close()
-
-       

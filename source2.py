@@ -10,6 +10,7 @@ from authenticationMod import authenticate
 from createUser import createUser
 from authenticationMod import login
 from helperFuncs import retrieveHosts
+from addRequest import addReq
 ME = "whoami.json"
 # CRED="jackohrn1@gmail.com"
 SENSITIVE = "/app/data/secureTable.json"
@@ -18,7 +19,6 @@ def findOnline(email):
     online = {}
     for host in retrieveHosts():
         response = sendMessage(host, "WHO|" + email)
-        print("DEBUG:", host, "returned:", response)
         if response.startswith("HERE|"):
             other_email = response.split("|")[1]
             if other_email != email:
@@ -69,10 +69,12 @@ def main():
                 print("enter email you'd like to add:")
                 emailName = input()
                 if emailName in online:
-                    print("U chose ", emailName, "hosts:", online[emailName])
+                    resi = online[emailName]
+                    response = sendMessage(resi, "FR|" + myCreds)
+                    print(response)
                 else:
                     print("selected user not online.")
-                break
+    
             case "List":
                 printContacts(myCreds)
             case "Send":
