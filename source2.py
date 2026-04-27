@@ -8,37 +8,53 @@ from helperFuncs import doesFileExist
 from helperFuncs import printContacts
 from authenticationMod import authenticate
 from createUser import createUser
+from authenticationMod import login
+from helperFuncs import retrieveHosts
 ME = "whoami.json"
-CRED="jackohrn1@gmail.com"
+# CRED="jackohrn1@gmail.com"
 SENSITIVE = "/app/data/secureTable.json"
 
+def findOnline(email):
+    online = {}
+    for host in retrieveHosts():
+        response = sendMessage(host, "WHO|" + email)
+        print("DEBUG:", host, "returned:", response)
+        if response.startswith("HERE|"):
+            other_email = response.split("|")[1]
+            if other_email != email:
+                online[other_email] = host
+    return online
+
+
 def main():
+    myCreds = -1
+    authEmail = -1
     #docker setup initially
     os.makedirs("/app/data", exist_ok = True)
      #main while
     #  while (doesFileExist(ME)):
         #initiate multithread
-    threading.Thread(target=initiateBackend, daemon=True).start()
     print("new user? (1)=y (0)=n")
     res = input()
-    if (res==0):
-        print("enter email:")
-        nE = input()
-        print("enter password:")
-        nP = input()
-        results = authenticate(SENSITIVE, nE, nP)
-        if (results):
-            print("yay ur real")
+    if (res !="1"):
+        myCreds = login()
+        if (myCreds!=-1):
+            print("welcome, ",myCreds,"!")
+           
         else:
-            print("not correct combo.")
+            print("error logging in...")
+            return
+    else:
+        myCreds = createUser()
+        if (myCreds!=-1):
+            print("Loggin in! as:", myCreds)
+        else:
+            print("could not create user. try again later.")
+            return
 
-
-    myCreds = createUser()
-    if (myCreds!=-1):
-        print("Loggin in! as:", myCreds)
-
-
-
+    threading.Thread(target=initiateBackend,args=(myCreds,),daemon=True
+    ).start()
+  
     command=1
     while (command!=-1):
         print("secure_drop>")
@@ -46,11 +62,19 @@ def main():
         command = input()
         match (command):
             case "Add":
+                online = findOnline(myCreds)
+                print("friends currently online:")
+                for email in online:
+                    print(email)
                 print("enter email you'd like to add:")
                 emailName = input()
+                if emailName in online:
+                    print("U chose ", emailName, "hosts:", online[emailName])
+                else:
+                    print("selected user not online.")
                 break
             case "List":
-                printContacts("jackohrn1@gmail.com")
+                printContacts(myCreds)
             case "Send":
                 break
             case "Exit":
@@ -60,11 +84,11 @@ def main():
     if (results):
         print("yay")
         
-
-
-
-
-
         ########
 main()
-      
+    
+
+
+
+
+

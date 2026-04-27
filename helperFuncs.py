@@ -33,6 +33,12 @@ def hashPassword(pw):
     digest = hashes.Hash(hashes.SHA256())
     digest.update(pw.encode())
     hashed = digest.finalize()
-    
+
     return hashed.hex()
 
+
+def retrieveHosts():
+    with open(SENSITIVE, "r") as f:
+        data = json.load(f)
+    obj = data.get("knownHosts", [])
+    return obj

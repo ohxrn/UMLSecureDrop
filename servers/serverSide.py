@@ -5,34 +5,30 @@ from pathlib import Path
 
 TLS_DIR = Path(__file__).resolve().parent.parent / "docker_content" / "tls"
 
-def initiateBackend():
+def initiateBackend(my_email):
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
     context.load_cert_chain(
-        certfile=str(TLS_DIR / "server.pem"),
-        keyfile=str(TLS_DIR / "server.key")
+        certfile="/app/docker_content/tls/server.pem",
+        keyfile="/app/docker_content/tls/server.key"
     )
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(("0.0.0.0", 9999))
     server.listen(5)
 
-    # print("-----------TLS listener now active------------")
-
     while True:
-        try:
-            client_socket, client_address = server.accept()
+        client_socket, client_address = server.accept()
+        tls_socket = context.wrap_socket(client_socket, server_side=True)
 
-            tls_socket = context.wrap_socket(client_socket, server_side=True)
+        data = tls_socket.recv(1024)
+        message = data.decode()
+        print("Message:", message)
 
-            print(client_address, "joined securely")
-
-            data = tls_socket.recv(1024)
-            print("Message:", data.decode())
-
+        if message.startswith("WHO|"):
+            tls_socket.send(("HERE|" + my_email).encode())
+        else:
             tls_socket.send("TLS RECEIVED".encode())
-            tls_socket.close()
 
-        except KeyboardInterrupt:
-            server.close()
-            print("stopped")
-            break
+        tls_socket.close()
+
+       
