@@ -1,6 +1,7 @@
 import socket
 import ssl
 from addRequest import addReq
+from addRequest import newFriend
 
 
 def initiateBackend(my_email):
@@ -33,6 +34,16 @@ def initiateBackend(my_email):
                 tls_socket.send(("REQUEST_RECEIVED|" + sender_email).encode())
             else:
                 tls_socket.send("REQUEST_FAILED".encode())
+
+        elif message.startswith("MERGEFRIENDS|"):
+            sender_email = message.split("|")[1]
+
+            result = newFriend(my_email,sender_email)
+
+            if result == 1:
+                tls_socket.send(("Merge_COMPLETED|" + sender_email).encode())
+            else:
+                tls_socket.send("MERGE_FAILED".encode())
 
         else:
             print("Message:", message)

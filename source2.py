@@ -11,6 +11,8 @@ from createUser import createUser
 from authenticationMod import login
 from helperFuncs import retrieveHosts
 from addRequest import addReq
+from addRequest import checkReq
+from addRequest import newFriend
 ME = "whoami.json"
 # CRED="jackohrn1@gmail.com"
 SENSITIVE = "/app/data/secureTable.json"
@@ -58,7 +60,7 @@ def main():
     command=1
     while (command!=-1):
         print("secure_drop>")
-        print("-Add \n-List\n-Send\n-Exit")
+        print("-Add \n-List\n-Send\n-Req\n-Exit")
         command = input()
         match (command):
             case "Add":
@@ -79,6 +81,26 @@ def main():
                 printContacts(myCreds)
             case "Send":
                 break
+            case "Req":
+                res = checkReq(myCreds)
+                print (res)
+                print(f"Accept request from {res} ? (1)=y (0)=n")
+                ans = input()
+                if (ans =="1"):
+                    newFriend(myCreds, res)
+
+                    online = findOnline(myCreds)
+                   
+                    if res in online:
+                        host = online[res]
+                        response = sendMessage(host, "MERGEFRIENDS|" + myCreds)
+                        print(response)
+                    else:
+                        print("selected user not online. try again later.")
+                else:
+                    print("tough")
+
+
             case "Exit":
                 break
         #grab ur email credentials

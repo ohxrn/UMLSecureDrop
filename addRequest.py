@@ -27,9 +27,25 @@ def checkReq(credE):
             for friendRequests in requestList:
                 print(friendRequests)
                 inc+=1
+            if (inc ==0):
+                print("no requests")
+                return -1
+            
             print("AMT OF REQUESTS: " , inc)
+            return requestList[0]
+        else:
+            print("never found email.")
+            return 0
+        
 
-
+def newFriend(cred, email):
+    if (doesFileExist(SENSITIVE)):
+        with open (SENSITIVE, "r") as f:
+            data = json.load(f)
+        if cred in data:
+            data[cred]["friends"].append(email)
+            if email in data[cred]["friendRequests"]:
+                data[cred]["friendRequests"].remove(email)
             with open(SENSITIVE, "w") as reSync:
                 json.dump(data, reSync, indent=4)
                 print("successfully added.")
@@ -37,6 +53,7 @@ def checkReq(credE):
         else:
             print("never found email.")
             return 0
+
 
 
 
