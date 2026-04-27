@@ -9,5 +9,5 @@ services:
     stdin_open: true
     container_name: TCP_PERSON_TWO
     volumes:
-      - ./p2_data:/app/data
+      - ./node:/app/data
     
