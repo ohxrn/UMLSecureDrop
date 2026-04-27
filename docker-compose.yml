@@ -2,14 +2,14 @@
   services:
     bobby:
       build: .
-      command: ["python", "-u", "source.py"]
+      command: ["python", "-u", "source2.py"]
       stdin_open: true
       container_name: bobby
       volumes:
         - ./bobby:/app/data
     alice:
       build: .
-      command: ["python", "-u", "source.py"]
+      command: ["python", "-u", "source2.py"]
       stdin_open: true
       container_name: alice
       volumes:

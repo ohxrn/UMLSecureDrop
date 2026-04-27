@@ -1,31 +1,35 @@
 import socket
-import threading
+import ssl
+from pathlib import Path
 
-print("")
- 
-def sendMessage(host,message):
-    print("starting....")
-    
+
+TLS_DIR = Path(__file__).resolve().parent.parent / "docker_content" / "tls"
+
+def sendMessage(host, message):
+    raw_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
     try:
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect((host, 9999))
-        client.send(message.encode())
+        raw_socket.connect((host, 9999))
 
-        response = client.recv(1024)
+        context = ssl.create_default_context(
+            ssl.Purpose.SERVER_AUTH,
+            cafile=str(TLS_DIR / "ca.crt")
+        )
+
+        tls_socket = context.wrap_socket(raw_socket, server_hostname="server")
+
+        tls_socket.send(message.encode())
+
+        response = tls_socket.recv(1024)
         print("response:", response.decode())
-        
 
-    except KeyboardInterrupt:
-        client.close()
-        print("client stopped.")
+        tls_socket.close()
 
     except ConnectionRefusedError:
         print("Server cant accept rn")
 
-    finally:
-        client.close()
-
-
+    except socket.gaierror:
+        print("Could not find host:", host)
 
 
 
