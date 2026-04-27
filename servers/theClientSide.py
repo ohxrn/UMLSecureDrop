@@ -1,10 +1,18 @@
 import socket
-def startClientServer(service):
+import threading
+
+print("")
+ 
+def sendMessage(host,message):
     print("starting....")
+    
     try:
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect((service, 9999))
-        client.send("BAHAHAHA SKDING".encode())
+        client.connect((host, 9999))
+        client.send(message.encode())
+
+        response = client.recv(1024)
+        print("response:", response.decode())
         
 
     except KeyboardInterrupt:
@@ -21,4 +29,3 @@ def startClientServer(service):
 
 
 
-startClientServer("central_service")

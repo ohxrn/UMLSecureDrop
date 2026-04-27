@@ -1,13 +1,17 @@
-services:
-  central_service:
-    build: .  
-    command: ["python", "-u", "servers/centralServer.py"]
 
-  user_node:
-    build: .
-    command: ["python", "-u", "servers/theClientSide.py"]
-    stdin_open: true
-    container_name: TCP_PERSON_NODE
-    volumes:
-      - ./node:/app/data
-    
+  services:
+    bobby:
+      build: .
+      command: ["python", "-u", "source.py"]
+      stdin_open: true
+      container_name: bobby
+      volumes:
+        - ./bobby:/app/data
+    alice:
+      build: .
+      command: ["python", "-u", "source.py"]
+      stdin_open: true
+      container_name: alice
+      volumes:
+        - ./alice:/app/data
+      

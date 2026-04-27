@@ -1,3 +1,4 @@
+import threading
 import json
 import pathlib
 import os
@@ -6,12 +7,16 @@ from authenticationMod import authenticate
 from checkUsers import userExists
 from addRequest import addReq 
 from addRequest import checkReq
+from servers.theClientSide import sendMessage
+from servers.serverSide import initiateBackend
+
 # from whoAmI import myCreds
 
 SENSITIVE = "/app/data/secureTable.json"
 MYCREDENTIALS={}
 
 def main():
+
     try:
         print("Do you have an account? (1) for yes, (2) for no")
         yesNo= input()
@@ -75,8 +80,12 @@ def main():
                 table[newEmail] = newAcct
                 with open(SENSITIVE, "w") as theJSON:
                     json.dump(table, theJSON, indent=4)
+
+            threading.Thread(target=initiateBackend, daemon=True).start()
+            sendMessage("yo anyone there")
         
             print("Great! We have now registered you for our secure drop system.")
+
             
         print("View contacts? : (1)=Yes (0)=No")
         yayNay = input()
